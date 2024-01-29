@@ -1,0 +1,50 @@
+body{
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    top: 50px;
+    z-index: -50;
+    overflow: hidden;
+}
+:root {
+    --miwidth: 0; /* Definición de la variable */
+    --miheight: 0;
+}
+.panel{
+    position: relative;
+    z-index: -20;
+    width: var(--miwidth);
+    height: var(--miheight);
+    background: blue;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    border: 5px solid black;
+}
+
+.panel::after{
+    content: '';
+    position: absolute;
+    top: 680px;
+    left: -160px;
+    width: 1200px;
+    height: 150px;
+    background: blue;
+    border-radius: 10px 10px 0 0;
+    border: 5px solid black;
+
+}
+
+.circle{
+    width: 100px;
+    height: 100px;
+    position: relative;
+    z-index: 100;
+    border-radius: 50%;
+    border: 1px solid black;
+    cursor: pointer;
+    background: white;
+}
