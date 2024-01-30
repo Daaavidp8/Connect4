@@ -1,6 +1,7 @@
 const panel = document.getElementById('panel');
 const width = 8;
 const height = 6;
+const audio = new Audio('../sounds/mixkit-short-whistle-fall-406.wav');
 let turno = 1;
 
 let tablero = new Tablero(width,height);
@@ -17,6 +18,7 @@ let llenarTablero = () => {
             panel.appendChild(div);
         }
     }
+
 }
 
 let pintarFicha = () => {
@@ -38,12 +40,17 @@ let pintarFicha = () => {
 let jugador1 = new Jugador("David","red");
 let jugador2 = new Jugador("Adrian","yellow");
 let Jugada = (col) => {
-    if (turno === 1){
-        tablero.setJugada(col,jugador1);
-        turno = 2;
-    }else {
-        tablero.setJugada(col,jugador2);
-        turno = 1;
+    if (!tablero.columnas[col]){
+        audio.play().then(() => {
+            audio.currentTime = 0;
+        });
+        if (turno === 1){
+            tablero.setJugada(col,jugador1);
+            turno = 2;
+        }else {
+            tablero.setJugada(col,jugador2);
+            turno = 1;
+        }
     }
 }
 

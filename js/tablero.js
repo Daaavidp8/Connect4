@@ -2,8 +2,8 @@ class Tablero {
 
     constructor(w,h) {
         this.width = w;
-        this.height = h;
         this.tablero = this.setTablero(w,h);
+        this.setColCompletas();
     }
     setTablero(w,h) {
         let panel = [];
@@ -15,6 +15,13 @@ class Tablero {
             panel.push(fila);
         }
         return panel;
+    }
+
+    setColCompletas(){
+        this.columnas = [];
+        for (let i = 0; i<this.width;i++){
+            this.columnas.push(false);
+        }
     }
 
     setJugada(col,jugador){
@@ -34,6 +41,10 @@ class Tablero {
                     contador++;
                 }
             },50)
+
+            if (this.tablero[0][col] !== null){
+                this.columnas[col] = true;
+            }
     }
 }
 
