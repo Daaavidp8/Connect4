@@ -11,9 +11,9 @@ let llenarTablero = () => {
     for (let i = 0; i < height; i++) {
         for (let p = 0; p < width; p++) {
             let div = document.createElement('div');
-            div.addEventListener('click', () => Jugada(div));
             div.classList.add('circle');
             div.id = i + "" + p;
+            div.addEventListener('click', () => Jugada(div.id.substring(1,div.id.length)));
             panel.appendChild(div);
         }
     }
@@ -35,10 +35,9 @@ let pintarFicha = () => {
     })
 }
 
-let jugador1 = new Jugador("David","red")
-let jugador2 = new Jugador("Adrian","yellow")
-let Jugada = (caja) => {
-    let col = caja.id.substring(1,caja.id.length);
+let jugador1 = new Jugador("David","red");
+let jugador2 = new Jugador("Adrian","yellow");
+let Jugada = (col) => {
     if (turno === 1){
         tablero.setJugada(col,jugador1);
         turno = 2;
@@ -50,8 +49,12 @@ let Jugada = (caja) => {
 
 
 setInterval(pintarFicha,50)
-
 llenarTablero();
+document.addEventListener('keypress',(key) => {
+    if (key.key > 0 && key.key <= width){
+        Jugada(key.key - 1);
+    }
+})
 
 
 

@@ -1,3 +1,8 @@
+
+@font-face {
+    font-family: 'numeros';
+    src: url("../fonts/Numberpile.otf");
+}
 body{
     position: relative;
     height: 100vh;
@@ -6,9 +11,10 @@ body{
     top: 50px;
     z-index: -50;
     overflow: hidden;
+    margin-top: 30px;
 }
 :root {
-    --miwidth: 0; /* Definición de la variable */
+    --miwidth: 0; /* Definición de la variable <- Chatgpt*/
     --miheight: 0;
 }
 .panel{
@@ -23,6 +29,16 @@ body{
     justify-content: space-between;
     padding: 20px;
     border: 5px solid black;
+}
+
+.panel::before{
+    content: 'BCDEFGHI';
+    position: absolute;
+    font-size: 4em;
+    top: -80px;
+    left: 35px;
+    letter-spacing: 34px;
+    font-family: numeros;
 }
 
 .panel::after{
@@ -48,3 +64,5 @@ body{
     cursor: pointer;
     background: white;
 }
+
+
