@@ -3,7 +3,6 @@ class Tablero {
     constructor(w,h) {
         this.width = w;
         this.tablero = this.setTablero(w,h);
-        this.setColCompletas();
     }
     setTablero(w,h) {
         let panel = [];
@@ -17,14 +16,8 @@ class Tablero {
         return panel;
     }
 
-    setColCompletas(){
-        this.columnas = [];
-        for (let i = 0; i<this.width;i++){
-            this.columnas.push(false);
-        }
-    }
-
     setJugada(col,jugador){
+        return new Promise(resolve => {
             let contador = 0;
             let primerafila = false;
             let aux;
@@ -34,6 +27,7 @@ class Tablero {
                     primerafila = true;
                 }else if(this.tablero[contador + 1] === undefined || this.tablero[contador + 1][col] !== null){
                     clearInterval(bajarFicha);
+                    resolve(contador);
                 }else{
                     aux = this.tablero[contador + 1][col];
                     this.tablero[contador + 1][col] = this.tablero[contador][col];
@@ -41,10 +35,8 @@ class Tablero {
                     contador++;
                 }
             },50)
+        })
 
-            if (this.tablero[0][col] !== null){
-                this.columnas[col] = true;
-            }
     }
 }
 
