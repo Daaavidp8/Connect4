@@ -40,7 +40,7 @@ let pintarFicha = () => {
     })
 }
 
-let jugador1 = new Jugador("Juanjo",'red');
+let jugador1 = new Jugador("Juanjo",'background: url("../img/RedHappy.png")');
 let jugador2 = new Jugador("David","yellow");
 
 let finPartida = (jugador) => {
@@ -97,6 +97,10 @@ let ComprobarGanador = (col,fila,jugador) => {
          }else {
              posicion[1] = true;
          }
+         if (contador >= win - 1){
+             posicion[1] = true;
+             finPartida(jugador)
+         }
      }
 
 
@@ -115,14 +119,16 @@ let ComprobarGanador = (col,fila,jugador) => {
         }else {
             posicion[1] = true;
         }
+        if (contador >= win - 1){
+            posicion[1] = true;
+            finPartida(jugador)
+        }
     }
 
     // Comprobación Diagonal Descendente
 
+    contador = 0;
     posicion = [1,false];
-
-    console.log("Fila=" + (fila - posicion[0]))
-    console.log("Columna=" + (col - posicion[0]))
 
     while (!posicion[1]){
         // Manejo que la comprobación este dentro del tablero
@@ -137,20 +143,48 @@ let ComprobarGanador = (col,fila,jugador) => {
         }else {
             posicion[1] = true;
         }
+        if (contador >= win - 1){
+            posicion[1] = true;
+            finPartida(jugador)
+        }
     }
 
-    if (contador >= win - 1){
-        finPartida(jugador)
+    posicion = [1,false];
+
+    while (!posicion[1]){
+        // Manejo que la comprobación este dentro del tablero
+        if (fila + posicion[0] < height && col + posicion[0] >= 0){
+            // Miro cuantas Fichas seguidas hay arriba a la derecha
+            if (tablero.tablero[fila + posicion[0]][col + posicion[0]] !== tablero.tablero[fila][col]){
+                posicion[1] = true;
+            }else {
+                contador++;
+                posicion[0]++;
+            }
+        }else {
+            posicion[1] = true;
+        }
+        if (contador >= win - 1){
+            posicion[1] = true;
+            finPartida(jugador)
+        }
     }
+
+    console.log("Contador=" + contador)
+
+
     turno = (turno === 1) ? 2 : 1;
+    paused = false;
 }
 let Jugada = (col) => {
-    if (tablero.tablero[0][col] === null){
+    if (tablero.tablero[0][col] === null && !paused){
+        paused = true;
         audio.play().then(() => {
             audio.currentTime = 0;
         });
         let jugador = (turno === 1) ? jugador1 : jugador2;
         tablero.setJugada(col, jugador).then((fila) => ComprobarGanador(col,fila,jugador));
+
     }
 }
 let AddEvents = () => {
@@ -164,6 +198,8 @@ let AddEvents = () => {
         teclaPresionada = false;
     })
 }
+
+
 
 
 setInterval(pintarFicha,50)
