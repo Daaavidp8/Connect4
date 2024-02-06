@@ -1,19 +1,21 @@
+let jugadores = [];
+
 class Tablero {
 
     constructor(w,h) {
         this.width = w;
-        this.tablero = this.setTablero(w,h);
+        this.height = h
+        this.setTablero();
     }
-    setTablero(w,h) {
-        let panel = [];
-        for (let i = 0; i<h;i++){
-            let fila = [];
-            for (let p = 0; p<w;p++){
-                fila.push(null);
-            }
-            panel.push(fila);
+    setTablero() {
+        if (localStorage.getItem('tablero') !== null){
+            this.divPregunta = document.createElement('div');
+            this.divPregunta.className = "mensajeConfirmacion";
+            this.divPregunta.innerHTML = "<p>Desea continuar por donde lo dejó?</p>" +
+                "<div><button onclick='tablero.CrearTablero()' class='danger'>Cancelar</button>" +
+                "<button onclick='tablero.RecuperarTablero()' class='success'>Okay</button></div>";
+            document.body.appendChild(this.divPregunta);
         }
-        return panel;
     }
 
     setJugada(col,jugador){
@@ -35,8 +37,32 @@ class Tablero {
                     contador++;
                 }
             },50)
+            localStorage.tablero = JSON.stringify(this.tablero);
         })
 
+
+    }
+
+    CrearTablero(){
+        let panel = [];
+        for (let i = 0; i<this.height;i++){
+            let fila = [];
+            for (let p = 0; p<this.width;p++){
+                fila.push(null);
+            }
+            panel.push(fila);
+        }
+        jugadores.push(new Jugador("Jugador1",'red'), new Jugador("Jugador2","yellow"));
+        localStorage.jugadores = JSON.stringify(jugadores);
+        this.tablero = panel;
+        document.getElementById('panel').style.visibility = "visible";
+        document.body.removeChild(this.divPregunta);
+    }
+
+    RecuperarTablero(){
+        jugadores = JSON.parse(localStorage.getItem('jugadores'));
+        this.tablero = JSON.parse(localStorage.getItem('tablero'));
+        document.getElementById('panel').style.visibility = "visible";
+        document.body.removeChild(this.divPregunta);
     }
 }
-

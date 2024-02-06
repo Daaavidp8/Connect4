@@ -2,16 +2,18 @@ const panel = document.getElementById('panel');
 const width = 8;
 const height = 6;
 const audio = new Audio('../sounds/mixkit-short-whistle-fall-406.wav');
-let turno = 1;
+const tablero = new Tablero(width,height);
+
+
+let turno = 0;
 let teclaPresionada = false;
 let paused = false;
 let win = 4;
 
-let tablero = new Tablero(width,height);
 
 let llenarTablero = () => {
-    panel.style.setProperty('--miwidth', (width * 107) + 'px');
-    panel.style.setProperty('--miheight', (height * 107) + 'px');
+    panel.style.setProperty('--miwidth', (width * 110) + 'px');
+    panel.style.setProperty('--miheight', (height * 110) + 'px');
     for (let i = 0; i < height; i++) {
         for (let p = 0; p < width; p++) {
             let div = document.createElement('div');
@@ -25,23 +27,20 @@ let llenarTablero = () => {
 }
 
 let pintarFicha = () => {
-    let color;
-    tablero.tablero.forEach((filas,indiceFila) => {
-        filas.forEach((columna,indiceColumna) => {
-            if (columna === null){
-                color = 'white';
-            }else if(columna === jugador1.number){
-                color = jugador1.color;
-            }else if (columna === jugador2.number){
-                color = jugador2.color;
-            }
-            document.getElementById(indiceFila + "" + indiceColumna).style.background = color;
+    if (tablero.tablero !== undefined){
+        let color;
+        tablero.tablero.forEach((filas,indiceFila) => {
+            filas.forEach((columna,indiceColumna) => {
+                if (columna === null){
+                    color = 'white';
+                }else{
+                    color = jugadores[columna].color;
+                }
+                document.getElementById(indiceFila + "" + indiceColumna).style.background = color;
+            })
         })
-    })
+    }
 }
-
-let jugador1 = new Jugador("Juanjo",'background: url("../img/RedHappy.png")');
-let jugador2 = new Jugador("David","yellow");
 
 let finPartida = (jugador) => {
     paused = true;
@@ -49,6 +48,7 @@ let finPartida = (jugador) => {
 }
 
 let ComprobarGanador = (col,fila,jugador) => {
+    let ganado = false;
     let contador = 0;
     // Comprobación Horizontal
     tablero.tablero[fila].forEach((columna,indice) => {
@@ -58,7 +58,7 @@ let ComprobarGanador = (col,fila,jugador) => {
             contador = 0;
         }
         if (contador === win - 1){
-            finPartida(jugador);
+            ganado = true;
         }
     })
 
@@ -74,7 +74,7 @@ let ComprobarGanador = (col,fila,jugador) => {
                 contador = 0;
             }
             if (contador === win - 1){
-                finPartida(jugador);
+                ganado = true;
             }
         }
     }
@@ -97,9 +97,9 @@ let ComprobarGanador = (col,fila,jugador) => {
          }else {
              posicion[1] = true;
          }
-         if (contador >= win - 1){
+         if (contador === win - 1){
              posicion[1] = true;
-             finPartida(jugador)
+             ganado = true;
          }
      }
 
@@ -119,9 +119,9 @@ let ComprobarGanador = (col,fila,jugador) => {
         }else {
             posicion[1] = true;
         }
-        if (contador >= win - 1){
+        if (contador === win - 1){
             posicion[1] = true;
-            finPartida(jugador)
+            ganado = true;
         }
     }
 
@@ -143,9 +143,9 @@ let ComprobarGanador = (col,fila,jugador) => {
         }else {
             posicion[1] = true;
         }
-        if (contador >= win - 1){
+        if (contador === win - 1){
             posicion[1] = true;
-            finPartida(jugador)
+            ganado = true;
         }
     }
 
@@ -164,27 +164,27 @@ let ComprobarGanador = (col,fila,jugador) => {
         }else {
             posicion[1] = true;
         }
-        if (contador >= win - 1){
+        if (contador === win - 1){
             posicion[1] = true;
-            finPartida(jugador)
+            ganado = true;
         }
     }
 
-    console.log("Contador=" + contador)
-
-
-    turno = (turno === 1) ? 2 : 1;
-    paused = false;
+    if (ganado){
+        finPartida(jugador)
+    }else{
+        turno = (turno === 1) ? 0 : 1;
+        paused = false;
+    }
 }
 let Jugada = (col) => {
     if (tablero.tablero[0][col] === null && !paused){
         paused = true;
         audio.play().then(() => {
             audio.currentTime = 0;
-        });
-        let jugador = (turno === 1) ? jugador1 : jugador2;
-        tablero.setJugada(col, jugador).then((fila) => ComprobarGanador(col,fila,jugador));
-
+        })
+        console.log(jugadores[turno])
+        tablero.setJugada(col, jugadores[turno]).then((fila) => ComprobarGanador(col,fila,jugadores[turno]));
     }
 }
 let AddEvents = () => {

@@ -10,14 +10,13 @@ body{
     justify-content: center;
     top: 50px;
     z-index: -50;
-    overflow: hidden;
     margin-top: 30px;
 }
 :root {
     --miwidth: 0; /* Definición de la variable <- Chatgpt*/
     --miheight: 0;
 }
-.panel{
+.panelTablero{
     position: relative;
     z-index: -20;
     width: var(--miwidth);
@@ -29,9 +28,10 @@ body{
     justify-content: space-between;
     padding: 20px;
     border: 5px solid black;
+    visibility: hidden;
 }
 
-.panel::before{
+.panelTablero::before{
     content: 'BCDEFGHI';
     position: absolute;
     font-size: 4em;
@@ -41,12 +41,12 @@ body{
     font-family: numeros;
 }
 
-.panel::after{
+.panelTablero::after{
     content: '';
     position: absolute;
-    top: 680px;
+    top: 100%;
     left: -160px;
-    width: 1200px;
+    width: 130%;
     height: 150px;
     background: blue;
     border-radius: 10px 10px 0 0;
@@ -62,6 +62,55 @@ body{
     border-radius: 50%;
     border: 1px solid black;
     cursor: pointer;
+}
+
+.mensajeConfirmacion{
+    position: absolute;
+    top: 25%;
+    background-color: white;
+    border: 2px black solid;
+    padding: 50px;
+}
+
+.mensajeConfirmacion>div{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.mensajeConfirmacion>div>button{
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: sans-serif;
+    cursor: pointer;
+    padding: 12px;
+    min-width: 100px;
+    border: 0;
+    -webkit-transition: background-color 100ms linear;
+    -ms-transition: background-color 100ms linear;
+    transition: background-color 100ms linear;
+    border-radius: 8px;
+}
+
+.danger {
+    background: #e74c3c;
+    color: #ffffff;
+}
+
+.danger:hover {
+    background: #c0392b;
+    color: #ffffff;
+}
+
+.success {
+    background: #2ecc71;
+    color: #ffffff;
+}
+
+.success:hover {
+    background: #27ae60;
+    color: #ffffff;
 }
 
 
