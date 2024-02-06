@@ -1,4 +1,5 @@
 let jugadores = [];
+let paused = false;
 
 class Tablero {
 
@@ -37,7 +38,6 @@ class Tablero {
                     contador++;
                 }
             },50)
-            localStorage.tablero = JSON.stringify(this.tablero);
         })
 
 
@@ -60,6 +60,7 @@ class Tablero {
     }
 
     RecuperarTablero(){
+        paused = localStorage.getItem('paused');
         jugadores = JSON.parse(localStorage.getItem('jugadores'));
         this.tablero = JSON.parse(localStorage.getItem('tablero'));
         document.getElementById('panel').style.visibility = "visible";

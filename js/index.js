@@ -7,7 +7,6 @@ const tablero = new Tablero(width,height);
 
 let turno = 0;
 let teclaPresionada = false;
-let paused = false;
 let win = 4;
 
 
@@ -44,6 +43,7 @@ let pintarFicha = () => {
 
 let finPartida = (jugador) => {
     paused = true;
+    localStorage.paused = true;
     alert("Ha ganado " + jugador.name)
 }
 
@@ -183,8 +183,10 @@ let Jugada = (col) => {
         audio.play().then(() => {
             audio.currentTime = 0;
         })
-        console.log(jugadores[turno])
-        tablero.setJugada(col, jugadores[turno]).then((fila) => ComprobarGanador(col,fila,jugadores[turno]));
+        tablero.setJugada(col, jugadores[turno]).then((fila) => {
+            localStorage.tablero = JSON.stringify(tablero.tablero);
+            ComprobarGanador(col,fila,jugadores[turno])
+        });
     }
 }
 let AddEvents = () => {
