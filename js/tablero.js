@@ -1,5 +1,6 @@
 let jugadores = [];
 let paused = false;
+let turno = 0;
 
 class Tablero {
 
@@ -16,6 +17,8 @@ class Tablero {
                 "<div><button onclick='tablero.CrearTablero()' class='danger'>Cancelar</button>" +
                 "<button onclick='tablero.RecuperarTablero()' class='success'>Okay</button></div>";
             document.body.appendChild(this.divPregunta);
+        }else {
+            this.CrearTablero();
         }
     }
 
@@ -52,18 +55,24 @@ class Tablero {
             }
             panel.push(fila);
         }
-        jugadores.push(new Jugador("Jugador1",'red'), new Jugador("Jugador2","yellow"));
+        jugadores.push(
+            new Jugador("Pablo",'url(../img/RedHappy.png)','../sounds/mixkit-short-whistle-fall-406.wav'),
+            new Jugador("David","url(../img/PurpleHappy.png)",'../sounds/fire-in-the-hole-made-with-Voicemod.mp3'),
+            new Jugador("Adrian",'url(../img/BlueHappy.png)','../sounds/mixkit-short-whistle-fall-406.wav'),
+            new Jugador("Ricardo",'url(../img/YellowHappy.png)','../sounds/mixkit-short-whistle-fall-406.wav'));
         localStorage.jugadores = JSON.stringify(jugadores);
         this.tablero = panel;
         document.getElementById('panel').style.visibility = "visible";
-        document.body.removeChild(this.divPregunta);
+        localStorage.getItem('tablero') !== null ? document.body.removeChild(this.divPregunta) : '';
     }
 
     RecuperarTablero(){
-        paused = localStorage.getItem('paused');
+        turno = parseInt(localStorage.getItem('turno'))
+        paused = localStorage.getItem('paused') === 'true';
         jugadores = JSON.parse(localStorage.getItem('jugadores'));
         this.tablero = JSON.parse(localStorage.getItem('tablero'));
         document.getElementById('panel').style.visibility = "visible";
         document.body.removeChild(this.divPregunta);
+        console.log(paused);
     }
 }

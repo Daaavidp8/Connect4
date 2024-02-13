@@ -37,7 +37,7 @@ body{
     font-size: 4em;
     top: -80px;
     left: 35px;
-    letter-spacing: 34px;
+    letter-spacing: 37px;
     font-family: numeros;
 }
 
@@ -62,7 +62,11 @@ body{
     border-radius: 50%;
     border: 1px solid black;
     cursor: pointer;
+    background-color: white;
+    background-size: contain;
+
 }
+
 
 .mensajeConfirmacion{
     position: absolute;
